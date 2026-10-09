@@ -1,0 +1,6 @@
+#!/bin/sh
+current_branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+if [ "$current_branch" = "main" ]; then
+  echo "🚫 Push to 'main' is blocked. Use a PR or push to another branch."
+  exit 1
+fi

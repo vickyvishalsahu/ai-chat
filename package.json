@@ -2,7 +2,45 @@
   "name": "ai-testing",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "release": "./release dev"
+    "dev": "concurrently -k -n server,web -c green,blue \"pnpm --filter @ai-testing/server dev\" \"pnpm --filter @ai-testing/web dev\"",
+    "build": "pnpm --filter @ai-testing/proto run build && pnpm -r --filter=!@ai-testing/proto run build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm --filter @ai-testing/proto run build && pnpm -r --filter=!@ai-testing/proto run test",
+    "test:e2e": "pnpm --filter @ai-testing/web run test:e2e",
+    "release": "./release dev",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "concurrently": "^10.0.6",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "globals": "^17.13.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.71.1"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{js,jsx,json,md,yml,yaml,css,html}": [
+      "prettier --write"
+    ]
   }
 }
