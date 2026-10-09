@@ -3,4 +3,4 @@ plugins:
   - local: protoc-gen-es
     out: src/gen
     include_imports: true
-    opt: target=ts
+    opt: target=js+dts

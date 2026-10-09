@@ -7,3 +7,4 @@ packages:
 # without this allowlist, `buf` silently never gets installed.
 onlyBuiltDependencies:
   - "@bufbuild/buf"
+  - esbuild
