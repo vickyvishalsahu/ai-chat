@@ -9,7 +9,7 @@ export interface GroqClient {
   streamChatCompletion(messages: ChatMessage[]): AsyncIterable<string>;
 }
 
-const MODEL = "llama-3.3-70b-versatile";
+const MODEL = "openai/gpt-oss-120b";
 
 export class RealGroqClient implements GroqClient {
   private readonly client: Groq;

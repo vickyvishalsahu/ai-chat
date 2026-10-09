@@ -30,7 +30,7 @@ On the web side, `useSendMessage` owns streaming state. It keeps an `overlay` of
 Every external dependency sits behind a small interface with a real and a stand-in adapter, chosen in `apps/server/src/compose.ts`:
 
 - Postgres: Neon when `DATABASE_URL` is set, otherwise in-memory PGlite running the same migrations
-- LLM: Groq when `GROQ_API_KEY` is set (model `llama-3.3-70b-versatile`), otherwise `FakeGroqClient`; `CHAT_GROQ_MODE=fake` forces the fake
+- LLM: Groq when `GROQ_API_KEY` is set (model `openai/gpt-oss-120b`), otherwise `FakeGroqClient`; `CHAT_GROQ_MODE=fake` forces the fake
 - Rate limiting: Upstash when `UPSTASH_REDIS_REST_URL`/`TOKEN` are set, otherwise disabled
 
 Outside production, missing credentials fall back to stand-ins, so `pnpm dev` and every test run with zero setup. With `NODE_ENV=production` all of them are required. The Groq key is server-side only and must never reach the browser.
