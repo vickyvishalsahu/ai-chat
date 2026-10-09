@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #eef1f4;
+  --color-surface: #ffffff;
+  --color-surface-muted: #e3e8ec;
+  --color-ink: #15202b;
+  --color-ink-muted: #54626f;
+  --color-line: #d2d9df;
+  --color-accent: #b8740f;
+  --color-accent-strong: #7a4d09;
+  --color-accent-soft: #f6e6cc;
+  --color-danger: #ab2e25;
+  --color-danger-soft: #f6dedc;
+}
+
+body {
+  @apply bg-canvas font-sans text-ink antialiased;
+}

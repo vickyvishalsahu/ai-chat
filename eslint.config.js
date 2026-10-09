@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import importPlugin from "eslint-plugin-import";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import unusedImports from "eslint-plugin-unused-imports";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -22,9 +22,12 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        projectService: { allowDefaultProject: ["apps/*/*.config.ts"] },
+        projectService: { allowDefaultProject: ["eslint.config.js", "apps/server/*.config.ts"] },
         tsconfigRootDir: import.meta.dirname,
       },
+    },
+    settings: {
+      "import/internal-regex": "^@/",
     },
     plugins: {
       import: importPlugin,
