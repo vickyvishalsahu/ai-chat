@@ -9,13 +9,13 @@
   },
   "scripts": {
     "dev": "concurrently -k -n server,web -c green,blue \"pnpm --filter @ai-testing/server dev\" \"pnpm --filter @ai-testing/web dev\"",
-    "build": "pnpm --filter @ai-testing/proto run build && pnpm -r --filter=!@ai-testing/proto run build",
+    "build": "pnpm -r run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r run typecheck",
-    "test": "pnpm --filter @ai-testing/proto run build && pnpm -r --filter=!@ai-testing/proto run test",
+    "test": "pnpm -r run test",
     "test:e2e": "pnpm --filter @ai-testing/web run test:e2e",
     "release": "./release dev",
     "prepare": "husky"

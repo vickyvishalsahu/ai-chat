@@ -4,10 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "buf generate",
     "generate": "buf generate",
-    "build": "buf generate",
-    "lint:proto": "buf lint",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "lint:proto": "buf lint"
   },
   "exports": {
     "./chat/v1/chat_pb": {

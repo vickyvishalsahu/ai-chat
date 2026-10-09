@@ -1,8 +1,8 @@
 import {
   MessageSchema,
   Role,
-  SendMessageChunkSchema,
-  type SendMessageChunk,
+  SendMessageResponseSchema,
+  type SendMessageResponse,
 } from "@ai-testing/proto/chat/v1/chat_pb";
 import { create } from "@bufbuild/protobuf";
 import { Code, ConnectError } from "@connectrpc/connect";
@@ -24,16 +24,16 @@ function message(id: string, role: Role, content: string) {
   return create(MessageSchema, { id, conversationId: CONVERSATION_ID, role, content });
 }
 
-const userAck = create(SendMessageChunkSchema, {
+const userAck = create(SendMessageResponseSchema, {
   payload: { case: "userMessage", value: message("u1", Role.USER, "hi") },
 });
 const delta = (value: string) =>
-  create(SendMessageChunkSchema, { payload: { case: "contentDelta", value } });
-const final = create(SendMessageChunkSchema, {
+  create(SendMessageResponseSchema, { payload: { case: "contentDelta", value } });
+const final = create(SendMessageResponseSchema, {
   payload: { case: "finalMessage", value: message("a1", Role.ASSISTANT, "Hello!") },
 });
 
-function streamOf(chunks: SendMessageChunk[], thenThrow?: Error) {
+function streamOf(chunks: SendMessageResponse[], thenThrow?: Error) {
   vi.mocked(chatClient.sendMessage).mockImplementation(async function* () {
     for (const chunk of chunks) yield chunk;
     if (thenThrow) throw thenThrow;

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { describe, it } from "node:test";
 
-import { ChatService, type SendMessageChunk } from "@ai-testing/proto/chat/v1/chat_pb";
+import { ChatService, type SendMessageResponse } from "@ai-testing/proto/chat/v1/chat_pb";
 import { Code, ConnectError, createClient, createRouterTransport } from "@connectrpc/connect";
 
 import { rateLimitInterceptor, type RateLimiter } from "./rate-limiter.js";
@@ -21,7 +21,7 @@ describe("rateLimitInterceptor", () => {
       { router: { interceptors: [rateLimitInterceptor(denyAll)] } },
     );
     const client = createClient(ChatService, transport);
-    const chunks: SendMessageChunk[] = [];
+    const chunks: SendMessageResponse[] = [];
 
     await assert.rejects(
       (async () => {

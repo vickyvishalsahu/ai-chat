@@ -5,7 +5,7 @@ import {
   ListConversationsResponseSchema,
   MessageSchema,
   Role,
-  SendMessageChunkSchema,
+  SendMessageResponseSchema,
 } from "@ai-testing/proto/chat/v1/chat_pb";
 import { create } from "@bufbuild/protobuf";
 import { timestampFromDate } from "@bufbuild/protobuf/wkt";
@@ -85,7 +85,7 @@ export function createChatService({ db, groq }: ChatServiceDeps): ServiceImpl<ty
 
       // From here on the user's message is durable; any later failure is
       // assistant-side and the client must not roll the message back.
-      yield create(SendMessageChunkSchema, {
+      yield create(SendMessageResponseSchema, {
         payload: { case: "userMessage", value: toProtoMessage(userMessage) },
       });
 
@@ -95,7 +95,7 @@ export function createChatService({ db, groq }: ChatServiceDeps): ServiceImpl<ty
       try {
         for await (const delta of groq.streamChatCompletion(history)) {
           reply += delta;
-          yield create(SendMessageChunkSchema, {
+          yield create(SendMessageResponseSchema, {
             payload: { case: "contentDelta", value: delta },
           });
         }
@@ -120,7 +120,7 @@ export function createChatService({ db, groq }: ChatServiceDeps): ServiceImpl<ty
         .set({ updatedAt: new Date() })
         .where(eq(conversations.id, conversation.id));
 
-      yield create(SendMessageChunkSchema, {
+      yield create(SendMessageResponseSchema, {
         payload: { case: "finalMessage", value: toProtoMessage(assistantMessage) },
       });
     },

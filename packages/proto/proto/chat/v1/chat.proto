@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 service ChatService {
   rpc ListConversations(ListConversationsRequest) returns (ListConversationsResponse);
   rpc GetConversation(GetConversationRequest) returns (GetConversationResponse);
-  rpc SendMessage(SendMessageRequest) returns (stream SendMessageChunk);
+  rpc SendMessage(SendMessageRequest) returns (stream SendMessageResponse);
 }
 
 enum Role {
@@ -54,7 +54,7 @@ message SendMessageRequest {
   string content = 2;
 }
 
-message SendMessageChunk {
+message SendMessageResponse {
   oneof payload {
     // Yielded exactly once, first: the user's message as durably
     // persisted (real id/created_at). Also the client's signal that any

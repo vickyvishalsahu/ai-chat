@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { describe, it } from "node:test";
 
-import { ChatService, Role, type SendMessageChunk } from "@ai-testing/proto/chat/v1/chat_pb";
+import { ChatService, Role, type SendMessageResponse } from "@ai-testing/proto/chat/v1/chat_pb";
 import { Code, ConnectError, createClient, createRouterTransport } from "@connectrpc/connect";
 
 import { createChatService, deriveTitle } from "./chat.js";
@@ -18,7 +18,10 @@ async function setup(replies: Array<ScriptedReply | Error> = []) {
   return createClient(ChatService, transport);
 }
 
-async function collect(stream: AsyncIterable<SendMessageChunk>, into: SendMessageChunk[] = []) {
+async function collect(
+  stream: AsyncIterable<SendMessageResponse>,
+  into: SendMessageResponse[] = [],
+) {
   for await (const chunk of stream) into.push(chunk);
   return into;
 }
@@ -61,7 +64,7 @@ describe("ChatService", () => {
   it("keeps the user message when Groq fails mid-stream and reports Unavailable", async () => {
     const client = await setup([new Error("groq is down")]);
     const conversationId = randomUUID();
-    const chunks: SendMessageChunk[] = [];
+    const chunks: SendMessageResponse[] = [];
 
     await assert.rejects(
       collect(client.sendMessage({ conversationId, content: "hello" }), chunks),
