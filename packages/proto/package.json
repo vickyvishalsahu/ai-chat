@@ -1,0 +1,23 @@
+{
+  "name": "@ai-testing/proto",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "buf generate",
+    "build": "buf generate",
+    "lint:proto": "buf lint",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "exports": {
+    "./chat/v1/chat_pb": "./src/gen/chat/v1/chat_pb.ts"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.16.0",
+    "@connectrpc/connect": "^2.2.0"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.73.0",
+    "@bufbuild/protoc-gen-es": "^2.16.0"
+  }
+}
